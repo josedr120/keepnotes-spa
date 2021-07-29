@@ -14,11 +14,10 @@ import { IRegister } from '../../models/IRegister';
    providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
-   endpoint = 'https://localhost:5001/api';
+   endpoint = 'https://localhost:5005/api';
    headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-   /*public authState: IAuthState = { isAuth: false, isLoading: false, token: null, isExpired: false, issuedToken: null };*/
-   public authState = new BehaviorSubject<IAuthState>({ isAuth: false, isLoading: false, userId: null, isExpired: false, issuedToken: null });
+   public authState: IAuthState = { isAuth: false, isLoading: false, userId: null, isExpired: false, issuedToken: null };
 
    constructor(private http: HttpClient, private router: Router, private jwtService: JwtService, private userService: UserService) {}
 
@@ -45,15 +44,12 @@ export class AuthService implements OnDestroy {
       if (token) {
          const jwtPayload = this.jwtService.decodeToken();
 
-         const newAuthState: IAuthState = {
-            isAuth: true,
-            isLoading: true,
-            userId: jwtPayload.Id,
-            isExpired: this.jwtService.isExpired(),
-            issuedToken: null,
-         };
+         this.authState.isAuth = true;
+         this.authState.isLoading = true;
+         this.authState.isExpired = this.jwtService.isExpired();
+         this.authState.userId = jwtPayload.Id;
+         this.authState.issuedToken = null;
 
-         this.authState.next(newAuthState);
       }
 
       return token !== null && !this.jwtService.isExpired();
@@ -64,18 +60,16 @@ export class AuthService implements OnDestroy {
 
       if (token) {
          this.jwtService.removeToken();
-         const newAuthState: IAuthState = {
-            isAuth: false,
-            isLoading: false,
-            isExpired: true,
-            issuedToken: null,
-            userId: null,
-         };
-         this.authState.next(newAuthState);
+
+        this.authState.isAuth = false;
+        this.authState.isLoading = false;
+        this.authState.isExpired = true
+        this.authState.userId = null;
+        this.authState.issuedToken = null;
       }
    }
 
    ngOnDestroy(): void {
-      this.authState.complete();
+
    }
 }

@@ -16,28 +16,21 @@ import { takeUntil } from 'rxjs/operators';
 export class DashboardComponent implements OnInit {
    authState: IAuthState = <IAuthState>{};
    user: IUser = <IUser>{};
-   private uns = new Subject<void>();
 
    constructor(private authService: AuthService, private userService: UserService, private router: Router, private jwtService: JwtService) {}
 
    ngOnInit(): void {
-      const token = this.jwtService.getToken();
-      if (token) {
-         const jwtPayload = this.jwtService.decodeToken();
-         this.authState = this.authService.authState.value;
-         this.getUser(jwtPayload.Id);
-      }
+      const jwtPayload = this.jwtService.decodeToken();
+      this.authState = this.authService.authState;
+      this.getUser(jwtPayload.Id);
    }
 
    getUser(userId: string) {
-      this.userService
-         .getUser(userId)
-         .pipe(takeUntil(this.uns))
-         .subscribe({
-            next: (user: IUser) => {
-               this.user = user;
-               console.log(user);
-            },
-         });
+      this.userService.getUser(userId).subscribe({
+         next: (user: IUser) => {
+            this.user = user;
+            console.log(user);
+         },
+      });
    }
 }

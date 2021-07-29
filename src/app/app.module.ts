@@ -16,10 +16,11 @@ import { UserProfileComponent } from './shared/user-profile/user-profile.compone
 import { NoteComponent } from './shared/note/note.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
    declarations: [AppComponent, LoginComponent, HomeComponent, DashboardComponent, UserProfileComponent, NoteComponent],
-   imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, HttpClientModule, MatButtonModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatCardModule, MatGridListModule],
+    imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, HttpClientModule, MatButtonModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatCardModule, MatGridListModule, MatListModule],
    providers: [
       {
          provide: HTTP_INTERCEPTORS,

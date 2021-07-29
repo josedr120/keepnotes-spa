@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(login).subscribe({
          next: () => {
             if (this.authService.isLoggedIn()) {
-               this.router.navigateByUrl('dashboard').then(() => window.location.reload());
+               this.router.navigateByUrl('dashboard');
                console.log('logged');
             }
          },

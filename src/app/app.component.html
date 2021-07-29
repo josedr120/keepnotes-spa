@@ -15,9 +15,20 @@
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side">
     <div *ngIf="authState.isAuth">
-      <a routerLink="user" mat-button>
-        User Profile
-      </a>
+      <mat-list>
+        <mat-list-item>
+          <a routerLink="dashboard" mat-button>
+            Dashboard
+          </a>
+        </mat-list-item>
+
+        <mat-list-item>
+          <a routerLink="user/{{authState.userId}}" mat-button>
+            User Profile
+          </a>
+        </mat-list-item>
+      </mat-list>
+
     </div>
 
     <div *ngIf="!authState.isAuth">

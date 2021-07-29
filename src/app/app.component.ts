@@ -13,14 +13,24 @@ import { Subject } from 'rxjs';
 export class AppComponent implements OnInit {
    authState: IAuthState = <IAuthState>{};
 
-   constructor(private authService: AuthService, private router: Router) {}
+   constructor(private authService: AuthService, private jwtService: JwtService, private router: Router) {}
 
-   ngOnInit() {}
+   ngOnInit() {
+     const token = this.jwtService.getToken();
+     if(token) {
+       this.authService.isLoggedIn();
+       this.authState = this.authService.authState;
+     } else {
+       this.authService.doLogout();
+
+       this.authState = this.authService.authState;
+     }
+   }
 
    Logout() {
       this.authService.doLogout();
 
-      this.router.navigate(['login']).then(() => window.location.reload());
+      this.router.navigate(['login']);
    }
 
    isExpired() {
