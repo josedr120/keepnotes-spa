@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { INote } from '../../models/INote';
 import { map } from 'rxjs/operators';
+import { not } from 'rxjs/internal-compatibility';
 
 interface INoteService {}
 
@@ -27,5 +28,21 @@ export class NoteService implements INoteService {
             return res;
          })
       );
+   }
+
+   getNote(userId: string, noteId: string): Observable<INote> {
+      let api = `https://localhost:5005/api/note/${userId}/${noteId}`;
+
+      return this.http.get<INote>(api);
+   }
+
+   updateNote(userId: string, noteId: string, update: INote): Observable<boolean> {
+      let api = `https://localhost:5005/api/note/${userId}/${noteId}`;
+      return this.http.put<boolean>(api, update);
+   }
+
+   deleteNote(userId: string, noteId: string): Observable<boolean> {
+      let api = `https://localhost:5005/api/note/${userId}/${noteId}`;
+      return this.http.delete<boolean>(api);
    }
 }

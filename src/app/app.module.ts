@@ -16,11 +16,33 @@ import { UserProfileComponent } from './shared/user-profile/user-profile.compone
 import { NoteComponent } from './shared/note/note.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import {MatListModule} from "@angular/material/list";
+import { MatListModule } from '@angular/material/list';
+import { StoreModule } from '@ngrx/store';
+import { NoteFormComponent } from './shared/note-form/note-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
-   declarations: [AppComponent, LoginComponent, HomeComponent, DashboardComponent, UserProfileComponent, NoteComponent],
-    imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, HttpClientModule, MatButtonModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatCardModule, MatGridListModule, MatListModule],
+   declarations: [AppComponent, LoginComponent, HomeComponent, DashboardComponent, UserProfileComponent, NoteComponent, NoteFormComponent],
+   imports: [
+      BrowserModule,
+      AppRoutingModule,
+      BrowserAnimationsModule,
+      HttpClientModule,
+      MatButtonModule,
+      MatToolbarModule,
+      MatIconModule,
+      MatSidenavModule,
+      MatCardModule,
+      MatGridListModule,
+      MatListModule,
+      StoreModule.forRoot({}, {}),
+      FormsModule,
+      ReactiveFormsModule,
+      MatFormFieldModule,
+      MatInputModule,
+   ],
    providers: [
       {
          provide: HTTP_INTERCEPTORS,

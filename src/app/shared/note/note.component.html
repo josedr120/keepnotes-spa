@@ -1,6 +1,43 @@
+<form [formGroup]="noteForm" (ngSubmit)="ifTest(userId, note?.id)" class="mt-10">
+  <div class="grid grid-cols-1 gap-4">
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="Title" formControlName="title" required>
+    </mat-form-field>
 
-<div class="text-center p-10">
-  <li *ngFor="let note of notes">
-    {{note.title}}
-  </li>
+    <mat-form-field appearance="fill">
+      <mat-label>Content</mat-label>
+      <textarea matInput placeholder="Title" formControlName="content" required></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="grid grid-cols-1">
+    <div *ngIf="scope === 'add'">
+      <button mat-raised-button color="primary" type="submit">Add</button>
+    </div>
+  </div>
+  <div class="grid grid-cols-1">
+    <div *ngIf="scope === 'update'">
+      <button mat-raised-button color="primary" type="submit">Update</button>
+    </div>
+  </div>
+
+
+</form>
+
+
+<div class="grid grid-cols-3 gap-4 p-10 mt-10">
+  <mat-card *ngFor="let note of notes" [id]="note.id">
+    <mat-card-content class="text-center">
+      <h1 class="text-center text-3xl">{{note.title}}</h1>
+
+      <p class="mt-5">
+        {{note.content}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="scope = 'update'">Edit</button>
+      <button mat-raised-button color="primary" (click)="deleteNote(note.userId, note.id)">Delete</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

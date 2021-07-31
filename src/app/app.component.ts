@@ -16,15 +16,16 @@ export class AppComponent implements OnInit {
    constructor(private authService: AuthService, private jwtService: JwtService, private router: Router) {}
 
    ngOnInit() {
-     const token = this.jwtService.getToken();
-     if(token) {
-       this.authService.isLoggedIn();
-       this.authState = this.authService.authState;
-     } else {
-       this.authService.doLogout();
+      const token = this.jwtService.getToken();
+      if (token) {
+         this.authService.isLoggedIn();
+         this.authState = this.authService.authState;
+         this.isExpired();
+      } else {
+         this.authService.doLogout();
 
-       this.authState = this.authService.authState;
-     }
+         this.authState = this.authService.authState;
+      }
    }
 
    Logout() {

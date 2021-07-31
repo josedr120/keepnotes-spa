@@ -5,6 +5,7 @@ import { DashboardComponent } from './view/dashboard/dashboard.component';
 import { AuthGuard } from './core/helper/auth-guard/auth.guard';
 import { HomeComponent } from './view/home/home.component';
 import { UserProfileComponent } from './shared/user-profile/user-profile.component';
+import { NoteFormComponent } from './shared/note-form/note-form.component';
 
 const routes: Routes = [
    { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
    { path: 'login', component: LoginComponent },
    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
    { path: 'user/:id', component: UserProfileComponent, canActivate: [AuthGuard] },
+   { path: 'dashboard/add-note', component: NoteFormComponent, canActivate: [AuthGuard] },
    /*{
       path: 'dashboard',
       children: [
