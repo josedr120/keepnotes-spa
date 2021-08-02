@@ -1,0 +1,13 @@
+<form [formGroup]="updateForm" (ngSubmit)="updateNote(userId, noteId)">
+  <h2 mat-dialog-title>
+    <input matInput formControlName="title" type="text" [value]="note.title" />
+  </h2>
+  <mat-dialog-content class="mat-typography">
+    <textarea matInput type="text" formControlName="content" [value]="note.content"></textarea>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <span *ngIf="noteUpdated">Saving changes...</span>
+    <button *ngIf="controls.title?.value !== note.title || controls.content?.value !== note.content" type="submit" mat-button mat-dialog-close>Update</button>
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</form>

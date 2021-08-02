@@ -22,9 +22,16 @@ import { NoteFormComponent } from './shared/note-form/note-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NoteViewComponent } from './shared/note-view/note-view.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { FooterComponent } from './view/footer/footer.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RegisterComponent } from './view/register/register.component';
 
 @NgModule({
-   declarations: [AppComponent, LoginComponent, HomeComponent, DashboardComponent, UserProfileComponent, NoteComponent, NoteFormComponent],
+   declarations: [AppComponent, LoginComponent, HomeComponent, DashboardComponent, UserProfileComponent, NoteComponent, NoteFormComponent, NoteViewComponent, FooterComponent, RegisterComponent],
    imports: [
       BrowserModule,
       AppRoutingModule,
@@ -42,6 +49,10 @@ import { MatInputModule } from '@angular/material/input';
       ReactiveFormsModule,
       MatFormFieldModule,
       MatInputModule,
+      MatDialogModule,
+      SweetAlert2Module,
+      MatExpansionModule,
+      MatProgressSpinnerModule,
    ],
    providers: [
       {

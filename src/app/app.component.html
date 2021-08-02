@@ -16,7 +16,14 @@
 
   </div>
 
-  <button *ngIf="!authState.isAuth" routerLink="/login" mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+
+  <a routerLink="/" mat-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    Home
+  </a>
+  <button *ngIf="!authState.isAuth" routerLink="/register" mat-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    Register
+  </button>
+  <button *ngIf="!authState.isAuth" routerLink="/login" mat-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
     Login
   </button>
   <button *ngIf="authState.isAuth" (click)="Logout()" mat-button class="example-icon" aria-label="Example icon-button with share icon">
@@ -24,34 +31,17 @@
   </button>
 </mat-toolbar>
 
-<mat-drawer-container class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav" mode="side">
-    <div *ngIf="authState.isAuth">
-      <mat-list>
-        <mat-list-item>
-          <a routerLink="dashboard" mat-button>
-            Dashboard
-          </a>
-        </mat-list-item>
-
-        <mat-list-item>
-          <a routerLink="user/{{authState.userId}}" mat-button>
-            User Profile
-          </a>
-        </mat-list-item>
-      </mat-list>
-
+<mat-sidenav-container class="site">\
+<!--  <mat-sidenav #sidenav role="navigation" [opened]="true" mode="side" fixedInViewport style="width: 150px">-->
+<!--    <mat-nav-list>-->
+<!--      <button mat-raised-button>Hey</button>-->
+<!--    </mat-nav-list>-->
+<!--  </mat-sidenav>-->
+  <mat-sidenav-content>
+    <div class="md:container md:mx-auto sm:container sm:mx-auto">
+      <router-outlet></router-outlet>
     </div>
 
-    <div *ngIf="!authState.isAuth">
-      <button mat-button>
-        Home
-      </button>
-    </div>
-  </mat-drawer>
-
-  <div class="md:container md:mx-auto">
-    <router-outlet></router-outlet>
-  </div>
-
-</mat-drawer-container>
+    <app-footer class="mt-auto"></app-footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>

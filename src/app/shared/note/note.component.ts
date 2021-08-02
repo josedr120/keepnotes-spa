@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { INote } from '../../core/models/INote';
 import { NoteService } from '../../core/services/note/note.service';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { JwtService } from '../../core/services/jwt/jwt.service';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { NoteViewComponent } from '../note-view/note-view.component';
+import { IsEmptyOrNull } from '../../core/utils/NullOrEmptyChecker';
+import Swal from 'sweetalert2';
 
 @Component({
    selector: 'app-note',
@@ -12,8 +16,11 @@ import { FormBuilder } from '@angular/forms';
    styleUrls: ['./note.component.scss'],
 })
 export class NoteComponent implements OnInit {
+   isLoading: boolean = false;
    notes: INote[] = [];
    note: INote = <INote>{};
+   payload = this.jwtService.decodeToken();
+   inputOpenState: boolean = false;
 
    noteForm = this.formBuilder.group({
       // id: [null],
@@ -23,46 +30,57 @@ export class NoteComponent implements OnInit {
    });
 
    userId: string = this.jwtService.decodeToken().Id;
-   scope: 'add' | 'update' = 'add';
+   IsEmptyOrNull: boolean = false;
 
    controls = {
       title: this.noteForm.get('title'),
       content: this.noteForm.get('content'),
    };
 
-   constructor(private noteService: NoteService, private authService: AuthService, private jwtService: JwtService, private router: Router, private formBuilder: FormBuilder) {}
+   constructor(private noteService: NoteService, private authService: AuthService, private jwtService: JwtService, private router: Router, private formBuilder: FormBuilder, private dialog: MatDialog) {}
 
    ngOnInit(): void {
-      const payload = this.jwtService.decodeToken();
-      this.getNotes(payload.Id);
+      this.getNotes(this.payload.Id);
       this.getNoteId();
+   }
+
+   openDialog(userId: string, noteId: string, note: INote) {
+      const dialogConfig: MatDialogConfig = new MatDialogConfig();
+
+      dialogConfig.data = {
+         userId,
+         noteId,
+         note,
+      };
+
+      const dialogRef = this.dialog.open(NoteViewComponent, dialogConfig);
+
+      dialogRef.afterClosed().subscribe(() => {
+         this.getNotes(this.payload.Id);
+      });
    }
 
    getNoteId() {
       return this.notes.map((res) => (this.note = res));
    }
 
-   ifTest(userId: string = '', noteId: string = '') {
-      if (this.scope === 'add') {
-         this.createNote(userId);
-      } else if (this.scope === 'update') {
-         this.updateNote(userId, noteId);
-      }
-   }
-
    createNote(userId: string) {
       if (this.noteForm.valid) {
          const note: INote = this.noteForm.getRawValue();
          if (this.authService.isLoggedIn()) {
-            this.noteService.createNote(userId, note).subscribe({
-               next: () => {
-                  this.scope = 'add';
-                  alert('Created');
-                  this.getNotes(userId);
-                  this.controls.title?.reset();
-                  this.controls.content?.reset();
-               },
-            });
+            if (IsEmptyOrNull(note.title) || IsEmptyOrNull(note.content)) {
+               this.IsEmptyOrNull = true;
+               Swal.fire('fields are empty');
+            } else {
+               this.IsEmptyOrNull = false;
+               this.noteService.createNote(userId, note).subscribe({
+                  next: () => {
+                     this.getNotes(userId);
+                     this.controls.title?.reset();
+                     this.controls.content?.reset();
+                  },
+               });
+            }
          } else {
             alert('Your not logged in');
             this.router.navigate(['login']);
@@ -73,30 +91,27 @@ export class NoteComponent implements OnInit {
    getNotes(userId: string) {
       this.noteService.getNotes(userId).subscribe({
          next: (notes: INote[]) => {
+            this.isLoading = true;
             if (notes) {
                this.notes = notes;
+               this.isLoading = false;
             }
          },
       });
    }
 
-   updateNote(userId: string, noteId: string) {
-      if (this.authService.isLoggedIn()) {
-         const note = this.noteForm.getRawValue();
-         this.noteService.updateNote(userId, noteId, note).subscribe({
-            next: () => {
-               alert('Hey');
-            },
-         });
-      }
-   }
-
    deleteNote(userId: string, noteId: string) {
-      this.noteService.deleteNote(userId, noteId).subscribe({
-         next: () => {
-            alert('Deleted');
-            this.getNotes(userId);
-         },
+      Swal.fire({ title: 'Are you sure want to delete', confirmButtonText: 'Delete', confirmButtonColor: 'red', showCancelButton: true }).then((result) => {
+         if (result.isConfirmed) {
+            this.noteService.deleteNote(userId, noteId).subscribe({
+               next: () => {
+                  Swal.fire('Deleted!', '', 'success');
+                  this.getNotes(userId);
+               },
+            });
+         } else {
+            Swal.fire('Changes are not saved', '', 'info');
+         }
       });
    }
 }

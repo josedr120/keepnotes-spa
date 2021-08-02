@@ -6,5 +6,4 @@ export interface IAuthState {
    isLoading: boolean;
    isExpired: boolean;
    userId: string | null;
-   issuedToken: number | string | null;
 }

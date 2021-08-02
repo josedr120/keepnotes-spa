@@ -6,24 +6,16 @@ import { AuthGuard } from './core/helper/auth-guard/auth.guard';
 import { HomeComponent } from './view/home/home.component';
 import { UserProfileComponent } from './shared/user-profile/user-profile.component';
 import { NoteFormComponent } from './shared/note-form/note-form.component';
+import { RegisterComponent } from './view/register/register.component';
 
 const routes: Routes = [
-   { path: '', component: HomeComponent, pathMatch: 'full' },
-   /*{ path: 'register', component: undefined },*/
+   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+   { path: 'home', component: HomeComponent },
+   { path: 'register', component: RegisterComponent },
    { path: 'login', component: LoginComponent },
    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
    { path: 'user/:id', component: UserProfileComponent, canActivate: [AuthGuard] },
    { path: 'dashboard/add-note', component: NoteFormComponent, canActivate: [AuthGuard] },
-   /*{
-      path: 'dashboard',
-      children: [
-         {
-            path: 'notes',
-            component: undefined,
-         },
-      ],
-      canActivate: [AuthGuard],
-   },*/
 ];
 
 @NgModule({

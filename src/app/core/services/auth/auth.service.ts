@@ -17,11 +17,11 @@ export class AuthService implements OnDestroy {
    endpoint = 'https://localhost:5005/api';
    headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-   public authState: IAuthState = { isAuth: false, isLoading: false, userId: null, isExpired: false, issuedToken: null };
+   public authState: IAuthState = { isAuth: false, isLoading: false, userId: null, isExpired: false };
 
    constructor(private http: HttpClient, private router: Router, private jwtService: JwtService, private userService: UserService) {}
 
-   Register(register: IRegister): Observable<void> {
+   register(register: IRegister): Observable<void> {
       let api = `${this.endpoint}/auth/register`;
       return this.http.post<IRegister>(api, register).pipe(
          map((res: any) => {
@@ -48,8 +48,6 @@ export class AuthService implements OnDestroy {
          this.authState.isLoading = true;
          this.authState.isExpired = this.jwtService.isExpired();
          this.authState.userId = jwtPayload.Id;
-         this.authState.issuedToken = null;
-
       }
 
       return token !== null && !this.jwtService.isExpired();
@@ -61,15 +59,12 @@ export class AuthService implements OnDestroy {
       if (token) {
          this.jwtService.removeToken();
 
-        this.authState.isAuth = false;
-        this.authState.isLoading = false;
-        this.authState.isExpired = true
-        this.authState.userId = null;
-        this.authState.issuedToken = null;
+         this.authState.isAuth = false;
+         this.authState.isLoading = false;
+         this.authState.isExpired = true;
+         this.authState.userId = null;
       }
    }
 
-   ngOnDestroy(): void {
-
-   }
+   ngOnDestroy(): void {}
 }

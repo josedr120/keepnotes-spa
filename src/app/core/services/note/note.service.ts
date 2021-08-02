@@ -36,7 +36,7 @@ export class NoteService implements INoteService {
       return this.http.get<INote>(api);
    }
 
-   updateNote(userId: string, noteId: string, update: INote): Observable<boolean> {
+   updateNote(userId: string, noteId: string, update: INote | null): Observable<boolean> {
       let api = `https://localhost:5005/api/note/${userId}/${noteId}`;
       return this.http.put<boolean>(api, update);
    }

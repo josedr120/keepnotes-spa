@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
          this.authState = this.authService.authState;
          this.isExpired();
       } else {
-         this.authService.doLogout();
+         this.Logout();
 
          this.authState = this.authService.authState;
       }
