@@ -5,7 +5,6 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ILogin } from '../../models/ILogin';
 import { map } from 'rxjs/operators';
 import { IAuthState } from '../../models/IAuthState';
-import { IUser } from '../../models/IUser';
 import { JwtService } from '../jwt/jwt.service';
 import { UserService } from '../user/user.service';
 import { IRegister } from '../../models/IRegister';

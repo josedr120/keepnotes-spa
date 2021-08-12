@@ -44,6 +44,8 @@ import { RegisterComponent } from './view/register/register.component';
       MatCardModule,
       MatGridListModule,
       MatListModule,
+      MatFormFieldModule,
+      MatInputModule,
       StoreModule.forRoot({}, {}),
       FormsModule,
       ReactiveFormsModule,

@@ -3,7 +3,7 @@ import { INote } from '../../core/models/INote';
 import { NoteService } from '../../core/services/note/note.service';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { JwtService } from '../../core/services/jwt/jwt.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NoteViewComponent } from '../note-view/note-view.component';
@@ -37,7 +37,7 @@ export class NoteComponent implements OnInit {
       content: this.noteForm.get('content'),
    };
 
-   constructor(private noteService: NoteService, private authService: AuthService, private jwtService: JwtService, private router: Router, private formBuilder: FormBuilder, private dialog: MatDialog) {}
+   constructor(private noteService: NoteService, private authService: AuthService, private jwtService: JwtService, private router: Router, private formBuilder: FormBuilder, private dialog: MatDialog, private route: ActivatedRoute) {}
 
    ngOnInit(): void {
       this.getNotes(this.payload.Id);
@@ -83,7 +83,7 @@ export class NoteComponent implements OnInit {
             }
          } else {
             alert('Your not logged in');
-            this.router.navigate(['login']);
+            this.router.navigate(['login'], { relativeTo: this.route });
          }
       }
    }
@@ -105,8 +105,9 @@ export class NoteComponent implements OnInit {
          if (result.isConfirmed) {
             this.noteService.deleteNote(userId, noteId).subscribe({
                next: () => {
-                  Swal.fire('Deleted!', '', 'success');
-                  this.getNotes(userId);
+                  Swal.fire('Deleted!', '', 'success').then(() => {
+                     this.getNotes(userId);
+                  });
                },
             });
          } else {
