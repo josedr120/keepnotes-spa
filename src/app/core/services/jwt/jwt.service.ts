@@ -15,7 +15,7 @@ export class JwtService {
       const token = this.getToken();
       const jwtTokenPart = token.split('.')[1];
 
-      return JSON.parse(atob(jwtTokenPart)) as IJwtPayload;
+      return JSON.parse(atob(jwtTokenPart));
    }
 
    getToken(): string {

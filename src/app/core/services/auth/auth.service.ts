@@ -31,11 +31,7 @@ export class AuthService implements OnDestroy {
 
    login(login: ILogin): Observable<void> {
       let api = `${this.endpoint}/auth/login`;
-      return this.http.post<ILogin>(api, login).pipe(
-         map((res: any) => {
-            this.jwtService.setToken(res.token);
-         })
-      );
+      return this.http.post<void>(api, login);
    }
 
    isLoggedIn(): boolean {

@@ -1,19 +1,17 @@
 <mat-drawer-container></mat-drawer-container>
 
-<form *ngIf="!authState.isAuth" [formGroup]="loginForm" (ngSubmit)="Login()">
+<form class="mt-10" *ngIf="!authState.isAuth" [formGroup]="loginForm" (ngSubmit)="Login()">
   <div class="grid grid-cols-1 gap-4">
-    <mat-form-field appearance="standard">
+    <mat-form-field appearance="fill">
       <input matInput type="text" name="username" formControlName="username" placeholder="Username" autocomplete="off">
     </mat-form-field>
 
-    <mat-form-field appearance="standard">
+    <mat-form-field appearance="fill">
       <input matInput type="password" name="password" formControlName="password" placeholder="Password" autocomplete="off">
     </mat-form-field>
 
     <button type="submit" mat-raised-button color="primary">Submit</button>
   </div>
-
-
 </form>
 
 <!--<div class="p-10 text-center" *ngIf="!authState.isAuth">-->

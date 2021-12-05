@@ -18,7 +18,7 @@
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <div *ngIf="notes" class="grid md:grid-cols-3 sm:grid-cols-1 gap-4 p-10 mt-10">
-   <mat-card *ngFor="let note of notes" [id]="note.id">
+   <mat-card *ngFor="let note of notes$ | async; let i = index" [id]="note.id">
       <mat-card-content class="text-center">
          <h1 class="text-center text-3xl">{{ note.title }}</h1>
 
@@ -28,7 +28,7 @@
       </mat-card-content>
       <mat-card-actions align="end">
          <button mat-raised-button color="primary" (click)="openDialog(userId, note.id, note)">Edit</button>
-         <button mat-raised-button color="primary" (click)="deleteNote(note.userId, note.id)">Delete</button>
+         <button mat-raised-button color="primary" (click)="deleteNote(note.userId, note.id, i)">Delete</button>
       </mat-card-actions>
    </mat-card>
 </div>

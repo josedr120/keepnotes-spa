@@ -12,7 +12,7 @@ export class RegisterComponent implements OnInit {
    register: IRegister = {
       email: 'josedrgerena120@gmail.com',
       password: 'jordan1223hack',
-      username: 'josedr121',
+      username: 'josedr120',
    };
 
    constructor(private authService: AuthService, private router: Router) {}

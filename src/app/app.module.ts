@@ -29,6 +29,10 @@ import { FooterComponent } from './view/footer/footer.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RegisterComponent } from './view/register/register.component';
+import { authReducer } from './core/store/auth.reducer';
+import { StoreDevtools, StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { userReducer } from './core/store/user.reducer';
+import { notesReducer } from './core/store/notes/notes.reducer';
 
 @NgModule({
    declarations: [AppComponent, LoginComponent, HomeComponent, DashboardComponent, UserProfileComponent, NoteComponent, NoteFormComponent, NoteViewComponent, FooterComponent, RegisterComponent],
@@ -46,7 +50,10 @@ import { RegisterComponent } from './view/register/register.component';
       MatListModule,
       MatFormFieldModule,
       MatInputModule,
-      StoreModule.forRoot({}, {}),
+      StoreModule.forRoot({ auth: authReducer, user: userReducer, note: notesReducer }),
+      StoreDevtoolsModule.instrument({
+         maxAge: 10,
+      }),
       FormsModule,
       ReactiveFormsModule,
       MatFormFieldModule,
